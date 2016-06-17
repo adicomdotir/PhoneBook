@@ -124,6 +124,11 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/delete.png"))); // NOI18N
         jButton3.setText("حذف");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/exit.png"))); // NOI18N
         jButton4.setText("خروج");
@@ -197,6 +202,20 @@ public class NewJFrame extends javax.swing.JFrame {
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         tableUpdate();
     }//GEN-LAST:event_formWindowActivated
+
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        int index = jTable1.getSelectedRow();
+        if(index != -1) {
+            String[] strArr = MyIO.readFile();
+            MyIO.clearFile();
+            for (int i=0; i<strArr.length; i++) {
+                if(i!=index) {
+                    MyIO.writeFile(strArr[i]);
+                }
+            }
+            tableUpdate();
+        }
+    }//GEN-LAST:event_jButton3MouseClicked
 
     /**
      * @param args the command line arguments
