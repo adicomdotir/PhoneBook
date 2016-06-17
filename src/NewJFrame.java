@@ -21,7 +21,7 @@ import javax.swing.table.TableModel;
  * @author adicom
  */
 public class NewJFrame extends javax.swing.JFrame {
-
+    DefaultTableModel model;
     /**
      * Creates new form NewJFrame
      */
@@ -33,16 +33,17 @@ public class NewJFrame extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
         jTable1.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
         
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        Vector row = new Vector();
-        row.add("تبریز");
-        row.add("0914");
-        row.add("تبریزی");
-        row.add("علی");
-        row.add("2");
-        model.addRow(row);
+        model = (DefaultTableModel) jTable1.getModel();
+//        Vector row = new Vector();
+//        row.add("تبریز");
+//        row.add("0914");
+//        row.add("تبریزی");
+//        row.add("علی");
+//        row.add("2");
+//        model.addRow(row);
         
         // MyIO.writeFile("1,هادی,نوری,0963,ادربیل");
+        tableUpdate();
     }
 
     /**
@@ -70,10 +71,15 @@ public class NewJFrame extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTextArea1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"اردبیل", "0936", "نوری", "هادی",  new Integer(1)}
+
             },
             new String [] {
                 "ادرس", "موبایل", "نام خانوادگی", "نام", "ردیف"
@@ -188,6 +194,10 @@ public class NewJFrame extends javax.swing.JFrame {
         af.setVisible(true);
     }//GEN-LAST:event_jButton1MouseClicked
 
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        tableUpdate();
+    }//GEN-LAST:event_formWindowActivated
+
     /**
      * @param args the command line arguments
      */
@@ -235,4 +245,28 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
+
+    private void tableUpdate() {
+        if (model.getRowCount() > 0) {
+        for (int i = model.getRowCount() - 1; i > -1; i--) {
+            model.removeRow(i);
+        }
+}
+        String[] strArr = MyIO.readFile();
+        int index = 0;
+        String temp;
+        for(int k=0; k<strArr.length; k++) {
+            Vector row = new Vector();
+            strArr[k] = "," + strArr[k];
+            index = strArr[k].length();
+            for(int i=strArr[k].length()-1; i>=0; i--) {
+                if(strArr[k].charAt(i)==',') {
+                    temp = strArr[k].substring(i+1, index);
+                    index = i;
+                    row.add(temp);
+                }
+            }
+            model.addRow(row);
+        }
+    }
 }
