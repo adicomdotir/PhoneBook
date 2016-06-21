@@ -121,6 +121,11 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edit.png"))); // NOI18N
         jButton2.setText("ویرایش");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/delete.png"))); // NOI18N
         jButton3.setText("حذف");
@@ -216,6 +221,14 @@ public class NewJFrame extends javax.swing.JFrame {
             tableUpdate();
         }
     }//GEN-LAST:event_jButton3MouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        int index = jTable1.getSelectedRow();
+        if(index != -1) {
+            EditJFrame edit = new EditJFrame(index);
+            edit.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton2MouseClicked
 
     /**
      * @param args the command line arguments
